@@ -3,11 +3,9 @@ package com.congklak.ui;
 import java.util.Random;
 
 import com.congklak.core.Computer;
-import com.congklak.core.EasyComputer;
-import com.congklak.core.ExpertComputer;
+
 import com.congklak.core.GameState;
-import com.congklak.core.HardComputer;
-import com.congklak.core.MediumComputer;
+
 import com.congklak.core.Player;
 
 public class GameMenu {
@@ -15,24 +13,24 @@ public class GameMenu {
 	private PlayerMenu player1 = null;
 	private PlayerMenu player2 = null;
 	
-	public static final int EASY = 1;
-	public static final int MEDIUM = 2;
-	public static final int HARD = 3;
-	public static final int EXPERT = 4;
+	protected static final int EASY = 1;
+	protected static final int MEDIUM = 2;
+	protected static final int HARD = 3;
+	protected static final int EXPERT = 4;
 	
-	public static final int BIG_HOLE = 8;
+	protected static final int BIG_HOLE = 8;
 	
 	private int turn = 1;
 	
-	public static Random rand = new Random();
+	protected static Random rand = new Random();
 	
-	private Mode mode = null;
+	private String mode = null;
 	private int level = 0;
 	private MainMenu mainMenu = null;
 	
 	public GameMenu(MainMenu mainMenu) {
 		this.mainMenu = mainMenu;
-		mode = Mode.PLAYER_VS_PLAYER;
+		mode = "PLAYER_VS_PLAYER";
 		// player 1
 		player1 = new PlayerMenu(mainMenu, "Player 1");
 		player1.createPlayer();
@@ -48,7 +46,7 @@ public class GameMenu {
 	
 	public GameMenu(MainMenu mainMenu, int level) {
 		this.mainMenu = mainMenu;
-		mode = Mode.PLAYER_VS_COMPUTER;
+		mode ="PLAYER_VS_PLAYER";
 		this.level = level;
 		// player
 		player1 = new PlayerMenu(mainMenu, "Player");
@@ -67,7 +65,7 @@ public class GameMenu {
 		while (true) {
 			int hole = -1;
 			String player1label = "Player 1", player2label = "Player 2";
-			if (mode == Mode.PLAYER_VS_COMPUTER) {
+			if (mode.equals("PLAYER_VS_PLAYER")) {
 				player1label = "Player";
 				player2label = "Computer";
 			}
@@ -102,19 +100,19 @@ public class GameMenu {
 					double ratio = 0;
 					switch (level) {
 						case EASY:
-							((EasyComputer) comp).combination(state);
+							(comp).combination(state,level);
 							ratio = 0.70;
 							break;
 						case MEDIUM:
-							((MediumComputer) comp).combination(state);
+							(comp).combination(state,level);
 							ratio = 0.50;
 							break;
 						case HARD:
-							((HardComputer) comp).combination(state);
+							(comp).combination(state,level);
 							ratio = 0.30;
 							break;
 						case EXPERT:
-							((ExpertComputer) comp).combination(state);
+							(comp).combination(state,level);
 							ratio = 0.10;
 							break;
 					}
@@ -210,7 +208,7 @@ public class GameMenu {
 	
 	private void printBoard() {
 		String player1label = "Player 1", player2label = "Player 2";
-		if (mode == Mode.PLAYER_VS_COMPUTER) {
+		if (mode.equals("PLAYER_VS_PLAYER")) {
 			player1label = "Player";
 			player2label = "Computer";
 		}

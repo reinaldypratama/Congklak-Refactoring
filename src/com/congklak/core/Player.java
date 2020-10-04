@@ -8,7 +8,7 @@ public class Player implements Cloneable {
 	
 	public Player(String name) {
 		this.name = name;
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 7; i++) {	
 			hole[i] = 7;
 		}
 		big = 0;
@@ -18,6 +18,11 @@ public class Player implements Cloneable {
 		return name;
 	}
 	
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public void setValueHole(int index, int value) throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
 		if (index < 0 || index > 6)
 			throw new ArrayIndexOutOfBoundsException("Must between 0 and 6");

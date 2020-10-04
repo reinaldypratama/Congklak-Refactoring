@@ -1,16 +1,20 @@
 package com.congklak.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
-import com.congklak.ui.GameMenu;
+
 
 public class Computer extends Player {
 	
 	public Queue<Integer> pick = null;
 	public ArrayList<Solution> solutions = null;
 	
+	protected static final int BIG_HOLE = 8;
+	protected static Random rand = new Random();
 	private String computerNames[] = new String[]{
 		"Christian",
 		"Frans",
@@ -28,7 +32,7 @@ public class Computer extends Player {
 	
 	public static String generateName() {
 		Computer comp = new Computer("");
-		return comp.computerNames[ GameMenu.rand.nextInt(comp.computerNames.length) ];
+		return comp.computerNames[ rand.nextInt(comp.computerNames.length) ];
 	}
 	
 	protected void combination(GameState state, ArrayList<Integer> picks, int maxLevel) {
@@ -57,32 +61,32 @@ public class Computer extends Player {
 		while (take > 0) {
 			++currentIndex;
 			// skip opponent big hole
-			if (currentPlayer == state.player && currentIndex == GameMenu.BIG_HOLE) {
+			if (currentPlayer == state.player && currentIndex == BIG_HOLE) {
 				++currentIndex;
 				continue;
 			}
 			// change side
-			if (currentIndex > GameMenu.BIG_HOLE) {
+			if (currentIndex > BIG_HOLE) {
 				currentPlayer = currentPlayer.getOpponent();
 				currentIndex = 0;
 				continue;
 			}
 			// drop to hole
-			if (currentIndex == GameMenu.BIG_HOLE) {
+			if (currentIndex == BIG_HOLE) {
 				currentPlayer.setBig(currentPlayer.getBig() + 1);
-			} else if (currentIndex < GameMenu.BIG_HOLE) {
+			} else if (currentIndex < BIG_HOLE) {
 				currentPlayer.setValueHole(currentIndex - 1, currentPlayer.getValueHole(currentIndex - 1) + 1);
 			}
 			--take;
 			// take from last hole
-			if (take == 0 && currentIndex < GameMenu.BIG_HOLE && currentPlayer.getValueHole(currentIndex - 1) > 1) {
+			if (take == 0 && currentIndex < BIG_HOLE && currentPlayer.getValueHole(currentIndex - 1) > 1) {
 				take = currentPlayer.getValueHole(currentIndex - 1);
 				currentPlayer.setValueHole(currentIndex - 1, 0);
 			}
 		}
 		
 		// take from opponent
-		if (currentIndex < GameMenu.BIG_HOLE && currentPlayer == state.computer) {
+		if (currentIndex < BIG_HOLE && currentPlayer == state.computer) {
 			int indexOpponent = 7 - currentIndex;
 			int takeOpponent = state.player.getValueHole(indexOpponent);
 			state.player.setValueHole(indexOpponent, 0);
@@ -90,7 +94,7 @@ public class Computer extends Player {
 			currentPlayer.setBig(currentPlayer.getBig() + takeOpponent + 1);
 		}
 		
-		if (currentIndex == GameMenu.BIG_HOLE) {
+		if (currentIndex == BIG_HOLE) {
 			combination(state, picks, maxLevel - 1);
 		} else {
 			addSolution(state, picks);
@@ -103,5 +107,17 @@ public class Computer extends Player {
 		data.picks = (ArrayList<Integer>) picks.clone();
 		data.result = state.computer.getBig();
 		solutions.add(data);
+	}
+	
+	public void combination(GameState state, int level) {
+		this.solutions.clear();
+		this.combination(state, new ArrayList<>(), level);
+		Collections.sort(this.solutions);
+	}
+	
+	public int getHint(Player p1, Player p2,int level) {
+		GameState state = new GameState(p1.clone(), p2.clone());
+		this.combination(state,level);
+		return this.solutions.get(0).picks.get(0);
 	}
 }

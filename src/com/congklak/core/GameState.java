@@ -1,8 +1,8 @@
 package com.congklak.core;
 
 public class GameState implements Cloneable{
-	public Player player;
-	public Player computer;
+	protected Player player;
+	protected Player computer;
 	
 	public GameState(Player player, Player computer) {
 		this.player = player;
@@ -11,7 +11,7 @@ public class GameState implements Cloneable{
 		this.computer.setOpponent(player);
 	}
 	
-	public GameState clone() {
+	protected GameState clone() {
 		return new GameState(player.clone(), computer.clone());
 	}
 }

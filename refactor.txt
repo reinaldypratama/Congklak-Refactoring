@@ -1,0 +1,83 @@
+1.
+source		: class mode.java
+smell		: Unnecessary Abstraction, Unutilized Abstraction, Imperative Abstraction
+problem		: Enum tidak digunakan, pakai string saja
+solution	: hapus saja mode.java dan ubah di gameMenu mode.java jadi string saja
+
+
+2.
+source		: interface printable.java
+smell		: Unnecessary Abstraction, Unutilized Abstraction
+problem		: interface printable tidak ada gunanya, di implementasiin ke 1 class saja
+solution	: hapus interface printable.java + cabut interface di howtoplaymenu.java
+
+3.
+source		: class HowToPlayMenu.java pada bagian void print() 
+smell		: Imperative Abstraction, Unnecessary Abstraction
+problem		: class ini hanya memiliki 1 fungsi, sebaiknya dipindahkan ke tempat yang lebih layak bergabung dalam 1 class saja methodnya
+solution	: void print() di pindahkan ke MainMenu.java 
+
+4.
+source		: class HowToPlayMenu.java 
+smell		: Unnecessary Abstraction, Unutilized Abstraction
+problem		: class ini sudah tidak ada fungsinya 
+solution	: hapus class
+
+
+5.
+source		: Hint.java
+smell		: Unnecessary Abstraction, Duplicate Abstraction, Broken Modularization,Unfactored hierarchy, Unnecessary hierarchy
+problem		: Class ini memiliki fungsi yang sama dengan parent 
+solution	: hapus kelas hint.java masukan komponen hint.java ke computer
+
+6.
+source		: EasyComputer, MediumComputer, HardComputer, Expert Computer
+smell		: Unnecessary Abstraction, Duplicate Abstraction, Broken Modularization,Unfactored hierarchy, Unnecessary hierarchy
+problem		: ke empat Class child ini terdapat fungsi yang sama hampir sama dan memiliki 1 method saja. tugasnya hanya inherit dari parent class computer 
+solution	: Pindahkan setiap kelas ini ke Computer.java(parent class) lalu hapus semua kelas tersebut
+
+7.
+source		: GameState.java attribute player,computer serta function gamestate clone
+smell		: Deficient Encapsulation
+problem		: kedua attribute Hak Akses nya tidak perlu public, 
+			  protected juga bisa karena dia masih dalam 1 package lingkupnya 
+			  kecuali function yang sifatnya constructor wajib public
+solution	: ubah hak akses menjadi protected
+
+8.
+source		: PlayerMenu.java attribute label
+smell		: Deficient Encapsulation
+problem		: Labelnya tidak perlu public, karena aksesnya hanya di class itu sendiri
+solution	: ubah hak akses atribut label menjadi private
+
+9.
+source		: GameMenu.java dan Computer.java
+smell		: Deficient Encapsulation
+problem		: hak akses untuk variable static easy,medium,hard,expert,bighole, random tidak perlu publik
+solution	: ubah hak akses atribut menjadi protected. serta membuat expert dan 
+			  bighole di bagian computer lagi lalu panggil langsung dari computer tidak perlu ambil dari gamemenu
+			  lalu apus import pemanggilan dari GameMenu kepada Computer.java
+			  
+10.
+source		: MainMenu.java
+smell		: Deficient Encapsulation
+problem		: hak akses untuk variable scan tidak perlu publik
+solution	: ubah hak akses atribut menjadi protected. 
+
+11.
+source		: Player.java
+smell		: Incomplete Abstraction
+problem		: Pada Class Player.java, attribut name nya terdapat getter namun tidak ada setter
+solution	: tambahkan setter pada attribut name
+
+12.
+source		: PlayerMenu.java
+smell		: Incomplete Abstraction
+problem		: Pada Class PlayerMenu.java, attribut label nya terdapat getter namun tidak ada setter
+solution	: tambahkan setter pada attribut Label
+
+13.
+source		: PlayerMenu.java
+smell		: Incomplete Abstraction
+problem		: Pada Class PlayerMenu.java, attribut Player nya terdapat getter namun tidak ada setter
+solution	: tambahkan setter pada attribut Player

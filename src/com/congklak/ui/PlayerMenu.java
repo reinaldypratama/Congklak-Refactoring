@@ -1,16 +1,12 @@
 package com.congklak.ui;
 
 import com.congklak.core.Computer;
-import com.congklak.core.EasyComputer;
-import com.congklak.core.ExpertComputer;
-import com.congklak.core.HardComputer;
-import com.congklak.core.Hint;
-import com.congklak.core.MediumComputer;
+
 import com.congklak.core.Player;
 
 public class PlayerMenu {
 	private Player player;
-	public String label;
+	private String label;
 	private MainMenu mainMenu = null;
 	
 	public PlayerMenu(MainMenu mainMenu, String label) {
@@ -23,8 +19,19 @@ public class PlayerMenu {
 		return player;
 	}
 	
+	
+	
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	
+
 	public String getLabel() {
 		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	
 	public void createPlayer() {
@@ -40,16 +47,16 @@ public class PlayerMenu {
 		String name = Computer.generateName();
 		switch (level) {
 			case GameMenu.EASY:
-				player = new EasyComputer(name);
+				player = new Computer(name);
 				break;
 			case GameMenu.MEDIUM:
-				player = new MediumComputer(name);
+				player = new Computer(name);
 				break;
 			case GameMenu.HARD:
-				player = new HardComputer(name);
+				player = new Computer(name);
 				break;
 			case GameMenu.EXPERT:
-				player = new ExpertComputer(name);
+				player = new Computer(name);
 				break;
 		}
 	}
@@ -59,8 +66,9 @@ public class PlayerMenu {
 		do {
 			System.out.println(player.getName() + " turn");
 			if (player.getName().equals("BINUS")) { // hidden feature
-				Hint c = new Hint("");
-				System.out.println("Hint: " + c.getHint(player.getOpponent(), player));
+				
+				Computer c = new Computer("");
+				System.out.println("Hint: " + c.getHint(player.getOpponent(), player,6));
 			}
 			System.out.print("Choose hole(1-7): ");
 			if (mainMenu.scan.hasNextInt()) {
